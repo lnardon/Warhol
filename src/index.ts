@@ -6,10 +6,12 @@ import multer from "multer";
 import fs from "fs";
 
 dotenv.config();
-// Define multer storage for the images.
+const app: Express = express();
+const PORT = process.env.PORT;
+
 const storage = multer.diskStorage({
   destination: function (req: any, file: any, cb: any) {
-    cb(null, "uploads/");
+    cb(null, path.join(__dirname, "/uploads/"));
   },
   filename: function (req: any, file: any, cb: any) {
     cb(
@@ -19,7 +21,6 @@ const storage = multer.diskStorage({
   },
 });
 
-// Set up multer for image uploads.
 const upload = multer({
   storage: storage,
   fileFilter: function (req: any, file: any, cb: any) {
@@ -35,30 +36,19 @@ const upload = multer({
   },
 }).array("images");
 
-const app: Express = express();
-const port = process.env.PORT;
-
 app.get("/", async (req: Request, res: Response) => {
   res.json({ howdy: "there partner" });
 });
-
-// app.post("/optimization/losslessWebp", async (req: Request, res: Response) => {
-//   const data = await sharp(path.resolve(__dirname, "test.jpg"))
-//     .webp({ lossless: true })
-//     .toFile(__dirname + "converted.webp");
-//   res.setHeader("Content-Type", "image/webp");
-//   res.sendFile(__dirname + "converted.webp");
-// });
 
 app.post(
   "/optimization/losslessWebp",
   upload,
   async (req: Request, res: Response) => {
     const files = req.files as Express.Multer.File[];
-    let convertedFiles = [];
+    let convertedFiles: string[] = [];
 
     for (let file of files) {
-      const filePath = path.resolve(__dirname, file.path);
+      const filePath = path.join(__dirname, "/uploads/" + file.filename);
       const outputFilePath = path.resolve(
         __dirname,
         "converted",
@@ -69,10 +59,19 @@ app.post(
 
       convertedFiles.push(outputFilePath);
     }
-    res.download(convertedFiles[0]);
+
+    files.forEach((file, index) => {
+      fs.unlinkSync(file.path);
+    });
+    setTimeout(() => {
+      convertedFiles.forEach((file) => {
+        fs.unlinkSync(file);
+      });
+    }, 60000);
+    res.send(convertedFiles);
   }
 );
 
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`⚡️[server]: Server is running at port: ${PORT}`);
 });
