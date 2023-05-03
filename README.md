@@ -4,5 +4,8 @@ An image processing and optimization microservice.
 
 ### What was used
 
-- Python 3
+- Node.js
+- TypeScript
+- Sharp Package
+- Multer
 - Docker
