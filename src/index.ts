@@ -67,7 +67,39 @@ app.post(
       convertedFiles.forEach((file) => {
         fs.unlinkSync(file);
       });
-    }, 60000);
+    }, 1000 * 3600); // 3600 seconds || 1 Hour
+    res.send(convertedFiles);
+  }
+);
+
+app.post(
+  "/manipulation/greyscale",
+  upload,
+  async (req: Request, res: Response) => {
+    const files = req.files as Express.Multer.File[];
+    let convertedFiles: string[] = [];
+
+    for (let file of files) {
+      const filePath = path.join(__dirname, "/uploads/" + file.filename);
+      const outputFilePath = path.resolve(
+        __dirname,
+        "converted",
+        file.filename
+      );
+
+      await sharp(filePath).grayscale().toFile(outputFilePath);
+
+      convertedFiles.push(outputFilePath);
+    }
+
+    files.forEach((file, index) => {
+      fs.unlinkSync(file.path);
+    });
+    setTimeout(() => {
+      convertedFiles.forEach((file) => {
+        fs.unlinkSync(file);
+      });
+    }, 1000); // 3600 seconds || 1 Hour
     res.send(convertedFiles);
   }
 );
