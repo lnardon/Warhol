@@ -1,3 +1,24 @@
-.App {
-  text-align: center;
+.header {
+  width: 100%;
+  max-width: 1400px;
+  padding: 4rem;
+  display: flex;
+  align-items: center;
+  color: #fafafa;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uploadBtn {
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 0.25rem;
+  background-color: royalblue;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
 }

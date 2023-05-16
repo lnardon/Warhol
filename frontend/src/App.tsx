@@ -3,7 +3,12 @@ import "./App.css";
 function App() {
   return (
     <div className="App">
-      <h1>Welcome to Warhol's GUI</h1>
+      <header className="header">
+        <h1 className="title">WARHOL</h1>
+      </header>
+      <div className="content">
+        <button className="uploadBtn">Add images</button>
+      </div>
     </div>
   );
 }

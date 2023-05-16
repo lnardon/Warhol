@@ -1,6 +1,6 @@
 node_modules
 .env
-/dist/converted/*
-/dist/uploads/*
-/dist/frontend/*
+/dist/converted
+/dist/uploads
+/dist/frontend
 /dist/index.js
