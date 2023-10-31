@@ -1,9 +1,18 @@
+.App {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+}
+
 .header {
   width: 100%;
   max-width: 1400px;
   padding: 4rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   color: #fafafa;
 }
 
@@ -11,6 +20,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+}
+
+#image_picker {
+  display: none;
 }
 
 .uploadBtn {
@@ -21,4 +35,9 @@
   cursor: pointer;
   font-size: 1rem;
   font-weight: bold;
+}
+
+select {
+  margin-bottom: 2rem;
+  cursor: pointer;
 }
